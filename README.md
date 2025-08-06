@@ -1,4 +1,5 @@
 # Forkando e clonando este repositório
+
 1. Faça _login_ no [GitHub](https://github.com).
 2. Acesse [https://github.com/faustocintra/ps-ads-2025-2](https://github.com/faustocintra/ps-ads-2025-2).
 3. Clique sobre o botão `[Fork]` no canto superior direito.
@@ -12,4 +13,5 @@
 11. Ao ser perguntado se deseja abrir o repositório clonado, clique sobre o botão `[Abrir]`.
 
 # Criando um projeto Express.js
-Siga as instruções deste [artigo](https://faustocintra.com.br/desenvolvimento-back-end/criando-um-projeto-express-js-em-2024/).
+
+Siga as instruções deste [artinpx @kba-tools/create-express-appgo](https://faustocintra.com.br/desenvolvimento-back-end/criando-um-projeto-express-js-em-2024/).
