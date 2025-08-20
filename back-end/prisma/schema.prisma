@@ -23,9 +23,9 @@ model Customer {
   id              Int      @id @default(autoincrement())
   name            String   
   ident_document  String   
-  bith_date       DateTime? // interrogção significa que o campo é opcional, pode ser valor NULL
+  birth_date       DateTime? // interrogção significa que o campo é opcional, pode ser valor NULL
   street_name     String
-  house_namber    String
+  house_number    String
   complements     String?
   district        String
   municipality    String
