@@ -27,7 +27,7 @@ model Customer {
   house_number    String
   complements     String?
   district        String
-  manicipality    String
+  municipality    String
   state           String
   phone           String
   email           String

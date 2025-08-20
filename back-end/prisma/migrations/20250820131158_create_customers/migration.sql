@@ -8,7 +8,7 @@ CREATE TABLE "public"."Customer" (
     "house_number" TEXT NOT NULL,
     "complements" TEXT,
     "district" TEXT NOT NULL,
-    "manicipality" TEXT NOT NULL,
+    "municipality" TEXT NOT NULL,
     "state" TEXT NOT NULL,
     "phone" TEXT NOT NULL,
     "email" TEXT NOT NULL,
