@@ -19,13 +19,13 @@ datasource db {
   * deve iniciar com letra maiúscula
   * deve estar no singular
 */
-model Custumer {
+model Customer {
   id              Int           @id @default(autoincrement())
   name            String
   ident_document  String
   birth_date      DateTime?     // ? significa que o campo pode ter valor NULL
   street_name     String
-  house_name      String
+  house_number      String
   complements     String?
   district        String
   municipality    String
