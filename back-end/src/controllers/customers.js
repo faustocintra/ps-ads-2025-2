@@ -29,4 +29,105 @@ controller.create = async function(req, res) {
   }
 }
 
+controller.retrieveAll = async function(req, res) {
+  try {
+    // Recupera todos os registros de clientes, ordenados
+    // pelo campo "name"
+    const result = await prisma.customer.findMany({
+      orderBy: [ { name: 'asc' } ]
+    })
+
+    // HTTP 200: OK (implícito)
+    res.send(result)
+  }
+  catch(error) {
+    // Se algo de errado ocorrer, cairemos aqui
+    console.error(error)  // Exibe o erro no terminal
+
+    // Enviamos como resposta o código HTTP relativo
+    // a erro interno do servidor
+    // HTTP 500: Internal Server Error
+    res.status(500).end()
+  }
+}
+
+controller.retrieveOne = async function (req, res) {
+  try {
+    // Busca no banco de dados apenas o cliente indicado
+    // pelo parâmetro "id"
+    const result = await prisma.customer.findUnique({
+      where: { id: Number(req.params.id) }
+    })
+
+    // Encontrou ~> HTTP 200: OK (implícito)
+    if(result) res.send(result)
+    // Não encontrou ~> HTTP 404: Not Found
+    else res.status(404).end()
+  }
+  catch(error) {
+    // Se algo de errado ocorrer, cairemos aqui
+    console.error(error)  // Exibe o erro no terminal
+
+    // Enviamos como resposta o código HTTP relativo
+    // a erro interno do servidor
+    // HTTP 500: Internal Server Error
+    res.status(500).end()
+  }
+}
+
+controller.update = async function(req, res) {
+  try {
+    // busaca o registro no bd por seu id
+    // e atualiza com as informações que viera, em req.body
+    await prisma.customer.update({
+      where: { id: Number(req.params.id) },
+      data: req.body
+    })
+
+    // Se tudo der certo, enviamos o código HTTP
+    // apropriado, no caso
+    // HTTP 204: No Content
+    res.status(204).end()
+  }
+  catch(error) {
+    // Se algo de errado ocorrer, cairemos aqui
+    console.error(error)  // Exibe o erro no terminal
+
+    // não encontrou e não atualizou
+    if(error?.code === 'P2025') res.status(404).end()
+      return
+    }
+
+    // Enviamos como resposta o código HTTP relativo
+    // a erro interno do servidor
+    // HTTP 500: Internal Server Error
+    res.status(500).end()
+  }
+
+  controller.delete = async function(req, res) {
+    try {
+      // busca o registro no bd por seu id
+      await prisma.customer.delete({
+        where: { id: Number(req.params.id) }
+      })
+
+      // encontrou e excluiu  -> HTTP 204: No Content
+      res.status(204).end()
+
+    }
+    catch(error) {
+      // Se algo de errado ocorrer, cairemos aqui
+      console.error(error)  // Exibe o erro no terminal
+
+      // não encontrou e não atualizou
+      if(error?.code === 'P2025') res.status(404).end()
+        return
+      }
+
+      // Enviamos como resposta o código HTTP relativo
+      // a erro interno do servidor
+      // HTTP 500: Internal Server Error
+      res.status(500).end()
+    }
+
 export default controller
