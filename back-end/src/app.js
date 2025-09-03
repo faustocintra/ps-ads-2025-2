@@ -4,6 +4,7 @@ import logger from 'morgan'
 
 import indexRouter from './routes/index.js'
 import usersRouter from './routes/users.js'
+import carRoute from './routes/car.js'
 
 const app = express()
 
@@ -19,5 +20,7 @@ app.use('/users', usersRouter)
 
 import customersRoute from './routes/customers.js'
 app.use('/customers', customersRoute)
+app.use('/car', carRoute)
 
 export default app
+
