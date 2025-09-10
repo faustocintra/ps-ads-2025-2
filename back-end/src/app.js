@@ -3,7 +3,6 @@ import cookieParser from 'cookie-parser'
 import logger from 'morgan'
 
 import indexRouter from './routes/index.js'
-import usersRouter from './routes/users.js'
 
 const app = express()
 
@@ -13,13 +12,14 @@ app.use(urlencoded({ extended: false }))
 app.use(cookieParser())
 
 app.use('/', indexRouter)
-app.use('/users', usersRouter)
 
 /**************** ROTAS *******************/
 
 import customersRoute from './routes/customers.js'
 import carsRoute from './routes/cars.js'
+import usersRoute from './routes/users.js'
 app.use('/customers', customersRoute)
 app.use('/cars', carsRoute)
+app.use('/users', usersRoute)
 
 export default app
