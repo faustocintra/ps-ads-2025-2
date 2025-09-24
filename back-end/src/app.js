@@ -18,8 +18,10 @@ app.use('/', indexRouter)
 import customersRoute from './routes/customers.js'
 import carsRoute from './routes/cars.js'
 import usersRoute from './routes/users.js'
+import sellerRoute from './routes/seller.js'
 app.use('/customers', customersRoute)
 app.use('/cars', carsRoute)
 app.use('/users', usersRoute)
+app.use('/seller', sellerRoute)
 
 export default app
