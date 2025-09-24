@@ -43,8 +43,31 @@ CREATE TABLE "public"."User" (
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
 
--- CreateIndex
+-- CreateTable
+CREATE TABLE "public"."Seller" (
+    "id" SERIAL NOT NULL,
+    "fullname" TEXT NOT NULL,
+    "birth_date" TIMESTAMP(3),
+    "identity_document" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "phone" TEXT NOT NULL,
+    "is_manager" BOOLEAN NOT NULL DEFAULT false,
+
+    CONSTRAINT "Seller_pkey" PRIMARY KEY ("id")
+);
+
+
+CREATE UNIQUE INDEX "Customer_ident_document_key" ON "public"."Customer"("ident_document");
+
+CREATE UNIQUE INDEX "Customer_email_key" ON "public"."Customer"("email");
+
+CREATE UNIQUE INDEX "Car_plates_key" ON "public"."Car"("plates");
+
 CREATE UNIQUE INDEX "User_username_key" ON "public"."User"("username");
 
--- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "public"."User"("email");
+
+CREATE UNIQUE INDEX "Seller_identity_document_key" ON "public"."Seller"("identity_document");
+
+
+CREATE UNIQUE INDEX "Seller_email_key" ON "public"."Seller"("email");

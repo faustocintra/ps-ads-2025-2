@@ -1,5 +1,4 @@
 import prisma from '../database/client.js'
-import bcrypt from 'bcrypt'
 
 const controller = {}   // Objeto vazio
 
@@ -9,13 +8,6 @@ const controller = {}   // Objeto vazio
 // res ~> representa a resposta (response)
 controller.create = async function(req, res) {
   try {
-    // Se existe o campo 'password' em req.body,
-    // é necessário gerar o hash da senha antes
-    // de armazená-lo no BD. 12 é a quantidade de passos de criptografia
-    if(req.body.password) {
-       req.body.password = await bcrypt.hash(req.body.password, 12)
-    	}
-
     // Para a inserção no BD, os dados são enviados
     // dentro de um objeto chamado "body" que vem
     // dentro da requisição ("req")
@@ -85,13 +77,6 @@ controller.retrieveOne = async function (req, res) {
 
 controller.update = async function (req, res){
   try{
-    // Se existe o campo 'password' em req.body,
-    // é necessário gerar o hash da senha antes
-    // de armazená-lo no BD. 12 é a quantidade de passos de criptografia
-    if(req.body.password) {
-       req.body.password = await bcrypt.hash(req.body.password, 12)
-    }
-
     //Busca o registro no banco de dados por seu id
     //e o atualiza com as informações que vieram em req.body
     await prisma.seller.update({
