@@ -43,6 +43,19 @@ CREATE TABLE "public"."User" (
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+    CREATE TABLE "public"."Seller"
+    "id" SERIAL NOT NULL,
+    "fullname" TEXT NOT NULL,
+    "birth_date" TIMESTAMP(3),
+    "identity_document" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "phone" TEXT NOT NULL,
+    "is_manager" BOOLEAN NOT NULL DEFAULT false,
+
+    CONSTRAINT "Seller_pkey" PRIMARY KEY ("id")
+
+
 -- CreateIndex
 CREATE UNIQUE INDEX "User_username_key" ON "public"."User"("username");
 
