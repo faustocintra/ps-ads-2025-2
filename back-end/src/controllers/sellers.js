@@ -1,4 +1,5 @@
 import prisma from '../database/client.js'
+import bcrypt from 'bcrypt'
 
 const controller = {}   // Objeto vazio
 
@@ -8,10 +9,21 @@ const controller = {}   // Objeto vazio
 // res ~> representa a resposta (response)
 controller.create = async function(req, res) {
   try {
+    // Se existe o campo 'password' em req.body,
+    	// é necessário gerar o hash da senha antes
+    	// de armazená-lo no BD. 12 é a quantidade de passos de criptografia
+
+    if(req.body.identity_document) {
+       req.body.identity_document = await bcrypt.hash(req.body.identity_document, 11)
+    	}
+
     // Para a inserção no BD, os dados são enviados
     // dentro de um objeto chamado "body" que vem
     // dentro da requisição ("req")
-    await prisma.car.create({ data: req.body })
+    await prisma.seller.create({ data: req.body })
+   
+    
+    
 
     // Se tudo der certo, enviamos o código HTTP
     // apropriado, no caso
@@ -33,8 +45,8 @@ controller.retrieveAll = async function(req, res) {
   try {
     // Recupera todos os registros de veiculo, ordenados
     // pelo campo "name"
-    const result = await prisma.car.findMany({
-      orderBy: [ { model: 'asc' } ]
+    const result = await prisma.seller.findMany({
+      orderBy: [ { fullname: 'asc' } ]
     })
 
     // HTTP 200: OK (implícito)
@@ -55,7 +67,7 @@ controller.retrieveOne = async function (req, res) {
   try {
     // Busca no banco de dados apenas o veiculo indicado
     // pelo parâmetro "id"
-    const result = await prisma.car.findUnique({
+    const result = await prisma.seller.findUnique({
       where: { id: Number(req.params.id) }
     })
 
@@ -77,12 +89,21 @@ controller.retrieveOne = async function (req, res) {
 
 controller.update = async function(req, res) {
   try {
+     // Se existe o campo 'password' em req.body,
+    	// é necessário gerar o hash da senha antes
+    	// de armazená-lo no BD. 12 é a quantidade de passos de criptografia
+    	if(req.body.password) {
+       req.body.password = await bcrypt.hash(req.body.password, 12)
+    	}
     // Busca o registro no banco de dados por seu id
     // e o atualiza com as informações que vieram em req.body
-    await prisma.car.update({
+    await prisma.seller.update({
       where: { id: Number(req.params.id) },
       data: req.body
     })
+
+   
+
 
     // Encontrou e atualizou ~> HTTP 204: No Content
     res.status(204).end()
@@ -102,7 +123,7 @@ controller.update = async function(req, res) {
 
 controller.delete = async function (req, res) {
   try {
-    await prisma.car.delete({
+    await prisma.seller.delete({
       where: { id:  Number(req.params.id) }
     })
 
