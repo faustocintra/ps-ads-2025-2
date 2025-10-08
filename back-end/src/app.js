@@ -9,6 +9,16 @@ import indexRouter from './routes/index.js'
 
 const app = express()
 
+
+// Configurando o CORS para aceitar requisições a partir
+// dos servidores configurados na variável de ambiente
+// ALLOWED_ORIGINS
+import cors from 'cors'
+app.use(cors({
+  origin: process.env.ALLOWED_ORIGINS.split(','),
+  credentials: true   // Habilita o envio de cookies para o front-end
+}))
+
 app.use(logger('dev'))
 app.use(json())
 app.use(urlencoded({ extended: false }))
@@ -20,12 +30,21 @@ app.use('/', indexRouter)
 // Middleware de verificação de autorização
 import authMiddleware from './middleware/auth.js'
 app.use(authMiddleware)
+
+/**Rota Customers */
 import customersRoute from './routes/customers.js'
-import carsRoute from './routes/cars.js'
-import usersRoute from './routes/users.js'
-import sellersRoute from './routes/sellers.js'
 app.use('/customers', customersRoute)
+
+/**Rota Cars */
+import carsRoute from './routes/cars.js'
 app.use('/cars', carsRoute)
+
+/**Rota Users */
+import usersRoute from './routes/users.js'
 app.use('/users', usersRoute)
+
+/**Rota Sellers */
+import sellersRoute from './routes/sellers.js'
 app.use('/sellers', sellersRoute)
+
 export default app
