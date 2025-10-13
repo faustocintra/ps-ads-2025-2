@@ -1,10 +1,24 @@
 import express, { json, urlencoded } from 'express'
 import cookieParser from 'cookie-parser'
 import logger from 'morgan'
-
+// Carregando as variáveis de ambiente do arquivo.env
+import dotenv from 'dotenv'
+dotenv.config()
 import indexRouter from './routes/index.js'
 
 const app = express()
+// Configurando o CORS para aceitar requisições a partir
+// dos servidores configurados na variável de ambiente
+// ALLOWED_ORIGINS
+import cors from 'cors'
+app.use(cors({
+  origin: process.env.ALLOWED_ORIGINS.split(','),
+  credentials: true   // Habilita o envio de cookies para o front-end
+}))
+
+// Middleware de verificação de autorização
+import authMiddleware from './middleware/auth.js'
+app.use(authMiddleware)
 
 app.use(logger('dev'))
 app.use(json())
