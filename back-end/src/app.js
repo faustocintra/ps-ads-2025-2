@@ -17,8 +17,7 @@ app.use(cors({
 }))
 
 // Middleware de verificação de autorização
-import authMiddleware from './middleware/auth.js'
-app.use(authMiddleware)
+import authMiddleware from './middleware/auth.js' // Caminho esperado: minúsculo
 
 app.use(logger('dev'))
 app.use(json())
