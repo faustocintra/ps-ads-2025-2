@@ -180,9 +180,18 @@ controller.login = async function (req, res) {
       { expiresIn: '24h' }        // Prazo de validade do token
     )
 
-    // Retorna o token e o usuário autenticado, com o status
+    // Formamos o cookie para enviar ao front-end
+    res.cookie(process.env.AUTH_COOKIE_NAME, token, {
+      httpOnly: true,     // Torna o cookie inacessível para JavaScript
+      secure: true,       // O cookie só trafegará em HTTPS ou localhost
+      sameSite: 'None',
+      path: '/',
+      maxAge: 24 * 60 * 60 * 1000   // 24h
+    })
+
+    // Retorna APENAS o usuário autenticado com
     // HTTP 200: OK (implícito)
-    res.send({ user })
+    res.send({user})
   }
   catch(error) {
     // Se algo de errado acontecer, cairemos aqui
@@ -193,6 +202,7 @@ controller.login = async function (req, res) {
     res.status(500).end()
   }
 }
+
 
 
 export default controller
