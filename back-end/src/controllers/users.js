@@ -2,66 +2,66 @@ import jwt from 'jsonwebtoken'
 
 import prisma from '../database/client.js'
 import bcrypt from 'bcrypt'
- 
+
 const controller = {}   // Objeto vazio
- 
+
 // Todas as funções de controller têm, pelo menos,
 // dois parâmetros:
 // req ~> representa a requisição (request)
 // res ~> representa a resposta (response)
-controller.create = async function(req, res) {
+controller.create = async function (req, res) {
   try {
-      // Se existe o campo 'password' em req.body,
-      // é necessário gerar o hash da senha antes
-      // de armazená-lo no BD. 12 é a quantidade de passos de criptografia
-      if(req.body.password) {
-       req.body.password = await bcrypt.hash(req.body.password, 12)
-      }
- 
+    // Se existe o campo 'password' em req.body,
+    // é necessário gerar o hash da senha antes
+    // de armazená-lo no BD. 12 é a quantidade de passos de criptografia
+    if (req.body.password) {
+      req.body.password = await bcrypt.hash(req.body.password, 12)
+    }
+
     // Para a inserção no BD, os dados são enviados
     // dentro de um objeto chamado "body" que vem
     // dentro da requisição ("req")
     await prisma.user.create({ data: req.body })
- 
+
     // Se tudo der certo, enviamos o código HTTP
     // apropriado, no caso
     // HTTP 201: created
     res.status(201).end()
   }
-  catch(error) {
+  catch (error) {
     // Se algo de errado ocorrer, cairemos aqui
     console.error(error)  // Exibe o erro no terminal
- 
+
     // Enviamos como resposta o código HTTP relativo
     // a erro interno do servidor
     // HTTP 500: Internal Server Error
     res.status(500).end()
   }
 }
- 
-controller.retrieveAll = async function(req, res) {
+
+controller.retrieveAll = async function (req, res) {
   try {
     // Recupera todos os registros de clientes, ordenados
     // pelo campo "name"
     const result = await prisma.user.findMany({
       omit: { password: true },
-      orderBy: [ { fullname: 'asc' } ] //'asc' - ascendente, 'desc' - descendente
+      orderBy: [{ fullname: 'asc' }] //'asc' - ascendente, 'desc' - descendente
     })
- 
+
     // HTTP 200: OK (implícito)
     res.send(result)
   }
-  catch(error) {
+  catch (error) {
     // Se algo de errado ocorrer, cairemos aqui
     console.error(error)  // Exibe o erro no terminal
- 
+
     // Enviamos como resposta o código HTTP relativo
     // a erro interno do servidor
     // HTTP 500: Internal Server Error
     res.status(500).end()
   }
 }
- 
+
 controller.retrieveOne = async function (req, res) {
   try {
     // Busca no banco de dados apenas o cliente indicado
@@ -70,70 +70,70 @@ controller.retrieveOne = async function (req, res) {
       omit: { password: true },
       where: { id: Number(req.params.id) }
     })
- 
+
     // Encontrou ~> HTTP 200: OK (implícito)
-    if(result) res.send(result)
+    if (result) res.send(result)
     // Não encontrou ~> HTTP 404: Not Found
     else res.status(404).end()
   }
-  catch(error) {
+  catch (error) {
     // Se algo de errado ocorrer, cairemos aqui
     console.error(error)  // Exibe o erro no terminal
- 
+
     // Enviamos como resposta o código HTTP relativo
     // a erro interno do servidor
     // HTTP 500: Internal Server Error
     res.status(500).end()
   }
 }
- 
-controller.update = async function(req, res) {
+
+controller.update = async function (req, res) {
   try {
-      // Se existe o campo 'password' em req.body,
-      // é necessário gerar o hash da senha antes
-      // de armazená-lo no BD. 12 é a quantidade de passos de criptografia
-      if(req.body.password) {
-       req.body.password = await bcrypt.hash(req.body.password, 12)
-      }
+    // Se existe o campo 'password' em req.body,
+    // é necessário gerar o hash da senha antes
+    // de armazená-lo no BD. 12 é a quantidade de passos de criptografia
+    if (req.body.password) {
+      req.body.password = await bcrypt.hash(req.body.password, 12)
+    }
     // Busca o registro no banco de dados por seu id
     // e o atualiza com as informações que vieram em req.body
     await prisma.user.update({
       where: { id: Number(req.params.id) },
       data: req.body
     })
- 
+
     // Encontrou e atualizou ~> HTTP 204: No Content
     res.status(204).end()
   }
-  catch(error) {
+  catch (error) {
     // Se algo de errado ocorrer, cairemos aqui
     console.error(error)  // Exibe o erro no terminal
- 
+
     // Não encontrou e não atualizou ~> HTTP 404: Not Found
-    if(error?.code === 'P2025') res.status(404).end()
- 
+    if (error?.code === 'P2025') res.status(404).end()
+
     // Se não for erro de não encontrado, retorna o habitual
     // HTTP 500: Internal Server Error
     else res.status(500).end()
   }
 }
- 
+
 controller.delete = async function (req, res) {
   try {
     await prisma.user.delete({
-      where: { id:  Number(req.params.id) }
+      where: { id: Number(req.params.id) }
     })
- 
+
     // Encontrou e excluiu ~> HTTP 204: No Content
     res.status(204).end()
   }
-  catch(error) {
+  catch (error) {
     // Se algo de errado ocorrer, cairemos aqui
     console.error(error)  // Exibe o erro no terminal
- 
+
     // Não encontrou e não excluiu ~> HTTP 404: Not Found
-    if(error?.code === 'P2025') res.status(404).end()
- 
+    if (error?.code === 'P2025') res.status(404).end()
+
     // Se não for erro de não encontrado, retorna o habitual
     // HTTP 500: Internal Server Error
     else res.status(500).end()
@@ -155,7 +155,7 @@ controller.login = async function (req, res) {
 
     // Se o usuário não for encontrado, retorna
     // HTTP 401: Unauthorized
-    if(! user) {
+    if (!user) {
       console.error('ERRO DE LOGIN: usuário não encontrado')
       return res.status(401).end()
     }
@@ -165,14 +165,14 @@ controller.login = async function (req, res) {
 
     // Se a senha estiver errada, retorna
     // HTTP 401: Unauthorized
-    if(! passwordIsValid) {
+    if (!passwordIsValid) {
       console.error('ERRO DE LOGIN: senha inválida')
       return res.status(401).end()
     }
 
     // Deleta o campo "password" do objeto "user" antes de usá-lo
     // no token e no valor de retorno
-    if(user.password) delete user.password
+    if (user.password) delete user.password
 
     // Usuário/email e senha OK, passamos ao procedimento de gerar o token
     const token = jwt.sign(
@@ -181,11 +181,21 @@ controller.login = async function (req, res) {
       { expiresIn: '24h' }        // Prazo de validade do token
     )
 
-    // Retorna o token e o usuário autenticado, com o status
+    // Formamos o cookie para enviar ao front-end
+    res.cookie(process.env.AUTH_COOKIE_NAME, token, {
+      httpOnly: true,     // Torna o cookie inacessível para JavaScript
+      secure: true,       // O cookie só trafegará em HTTPS ou localhost
+      sameSite: 'None',
+      path: '/',
+      maxAge: 24 * 60 * 60 * 1000   // 24h
+    })
+
+    // Retorna APENAS o usuário autenticado com
     // HTTP 200: OK (implícito)
-    res.send({ user, token })
+    res.send({ user })
+
   }
-  catch(error) {
+  catch (error) {
     // Se algo de errado acontecer, cairemos aqui
     // Nesse caso, vamos exibir o erro no console e enviar
     // o código HTTP correspondente a erro do servidor
@@ -194,5 +204,5 @@ controller.login = async function (req, res) {
     res.status(500).end()
   }
 }
- 
+
 export default controller
