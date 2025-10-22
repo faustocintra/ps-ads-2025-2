@@ -8,7 +8,6 @@ import logger from 'morgan'
 import indexRouter from './routes/index.js'
 
  
- 
 const app = express()
 
 // Configurando o CORS para aceitar requisições a partir
