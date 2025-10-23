@@ -8,9 +8,20 @@ import {PokemonForm, fetchPokemon, PokemonInfoFallback, PokemonDataView} from '.
 
 function PokemonInfo({pokemonName}) {
   // 🐨 crie o estado para o pokémon (null)
-  const [pokemon, setPokemon] = React.useState(null)
-  const [error, setError] = React.useState(null)
-  const [status, setStatus] = React.useState('IDLE') // Estado ocioso
+  // const [pokemon, setPokemon] = React.useState(null)
+  // const [error, setError] = React.useState(null)
+  // const [status, setStatus] = React.useState('IDLE') // Estado ocioso
+const [state, setState] = React.useState({
+  pokemom: null,
+  error: null,
+  status: 'IDLE'
+
+})
+
+// Criando consatantes somente-leitura a partir da desestruturação
+// danova variável de stado para amximizar a compatibilidade com
+// o códgio já existetnte
+const {pokemom, error, status} = state
 
   // 🐨 crie React.useEffect de modo a ser chamado sempre que pokemonName mudar.
   // 💰 NÃO SE ESQUEÇA DO VETOR DE DEPENDÊNCIAS!
@@ -22,9 +33,14 @@ function PokemonInfo({pokemonName}) {
 
     // 🐨 antes de chamar `fetchPokemon`, limpe o estado atual do pokemon
     // ajustando-o para null.
-    setPokemon(null)
-    setError(null)
-    setStatus('PENDING') // Pendente
+    // setPokemon(null)
+    // setError(null)
+    // setStatus('PENDING') // Pendente
+    setState({
+      pokemom: null,
+      error: null,
+      status: 'PADDING'
+    })
 
     // (Isso é para habilitar o estado de carregamento ao alternar entre diferentes
     // pokémon.)
@@ -34,15 +50,27 @@ function PokemonInfo({pokemonName}) {
     //   )
     fetchPokemon(pokemonName)
       .then(pokemonData => {
-        setPokemon(pokemonData)
-        setStatus('RESOLVED') // Requisição resolvida
+        // setPokemon(pokemonData)
+        // setStatus('RESOLVED') // Requisição resolvida
+        setState({...state, pokemom: pokemonData, status: 'RESOLVED'})
       })
       .catch(error => {
-        setError(error)
-        setStatus('ERROR')  // Requisição com erro
+        // setError(error)
+        // setStatus('ERROR')  // Requisição com erro
+        // EM vez de errar: errar, podemos apenas errar,
+        // como efeito da propiedade abreviada
+        
+        setState({...state, error: error, status: 'ERROR'})
       })
 
   }, [pokemonName])
+
+  // Este useeffect será executado após qualquer alteração,
+  // para podermos vizualizar a quantidade de atualizações
+
+  React.useEffect(() => {
+    console.count('ATUALIZOU')
+  })
 
   // 🐨 return the following things based on the `pokemon` state and `pokemonName` prop:
   // 🐨 retorne o seguinte baseado nos estados `pokemon` e `pokemonName`:
