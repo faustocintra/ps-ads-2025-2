@@ -199,9 +199,9 @@ controller.login = async function (req, res) {
       maxAge: 24 * 60 * 60 * 1000   // 24h
     })
 
-    // Retorna APENAS o usuário autenticado com
-      // HTTP 200: OK (implícito)
-      res.send({user})
+    // Retorna o token e o usuário autenticado, com o status
+    // HTTP 200: OK (implícito)
+    res.send({ user, token })
   }
   catch(error) {
     // Se algo de errado acontecer, cairemos aqui
@@ -212,6 +212,24 @@ controller.login = async function (req, res) {
     res.status(500).end()
   }
 }
+
+controller.me = function(req, res) {
+ /*
+   Retorna o usuário autenticado (caso haja) que foi armazenado na
+   variável req.authUser pelo middleware de autorização logo após
+   o token ter sido decodificado
+ */
+ return res.send(req?.authUser)
+}
+
+
+controller.logout = function(req, res) {
+ // Apaga no front-end o cookie que armazena o token de autorização
+ res.clearCookie(process.env.AUTH_COOKIE_NAME)
+ // HTTP 204: No Content
+ res.status(204).end()
+}
+
 
 
 export default controller
