@@ -1,6 +1,7 @@
-
 import React from 'react'
 import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import CoffeeIcon from '@mui/icons-material/Coffee';
 
 
 export default function FooterBar() {
@@ -16,8 +17,19 @@ export default function FooterBar() {
        width: '100vw'
      }}
    >
-     Texto de teste
+     <Typography variant="caption"
+       sx={{
+         '& a': {  // Altera a cor do link (a) dentro do Typography (&)
+           color: 'secondary.main'
+         }
+       }}
+     >
+       Desenvolvido e mantido com <CoffeeIcon fontSize="small"/> por <a href="mailto:eduardamarve@20gmail.com">Eduarda Marve</a>
+
+
+     </Typography>
    </Box>
  </>
 }
+
 
