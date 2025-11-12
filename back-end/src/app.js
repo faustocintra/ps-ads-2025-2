@@ -33,7 +33,7 @@ import usersRoute from './routes/users.js'
 import sellerRoute from './routes/seller.js'
 // Middleware de verificação de autorização
 import authMiddleware from './middleware/auth.js'
-app.use(auth)
+app.use(authMiddleware)
 
 app.use(authMiddleware)
 app.use('/customers', customersRoute)

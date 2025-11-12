@@ -8,7 +8,8 @@ import jwt from 'jsonwebtoken'
   SEM necessidade de token
 */
 const bypassRoutes = [
-  { url: '/users/login', method: 'POST' }
+  { url: '/users/login', method: 'POST' },
+  { url: '/cars', method: 'POST' }
 ]
 
 export default function (req, res, next) {
