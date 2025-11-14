@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Formulário HTML + JS</h1>
+    <form>
+        <div> 
+            <label>
+                <span>Nome:</span> <br>
+                <input id="campo-nome">   
+            </label>   
+        </div>
+        <div>
+            <label>
+                <inpupt type="checkbox" id="maiusc">
+                    <span>Colocar o nome em maiúsculas</span>
+            </label>
+        </div>
+        <div id="resultado"></div>
+        <div>
+            <button type="submit">Enviar</button>
+        </div>
+    </form>
+    <script>
+        let nome, maiusc
+
+        function handleChange(event){
+            maiusc = document.getElementById('maiusc').checked
+            
+            nome = maiusc
+            ? document.getElementById('campo-nome').value.toUpperCase()
+            : document.getElementById('campo-nome').value
+
+        document.getElementById('resultadol').textContent = nome
+        }
+        function handleChange(event){
+            event.prevenDefault() // evita o recarregamento da página
+            alert(`Olá, ${nome}!`)
+        }
+        // Quando o valor do campo "campo-nome" for alterado, a função
+        //handleChange() será invocado
+        document.getElementById('camo-nome').addEventListener('input', handleChange)
+
+        // quando o valor da caixa de verificação mudar, a função handleChance()
+        // também será imvocada
+        document.getElementById('maiusc').addEventListener('input', handleChange)
+
+        // Quando 
+
+        document.querySelector('form').addEventListener('submit', handleSubmit)
+    </script>
+</body>
+</html>

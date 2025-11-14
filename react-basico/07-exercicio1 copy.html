@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .cor1 {
+            color: rgb(75, 3, 75);
+            border: 2px solid palevioletred ;
+            border-radius: 10px;
+            padding: 10px;
+            margin: 10px;
+            text-align: center;
+            background-color: pink;
+        }
+
+        .cor2 {
+            color: rgb(9, 49, 57);
+            border: 2px solid red;
+            border-radius: 10px;
+            padding: 10px;
+            margin: 10px;
+            text-align: center;
+            background-color: aqua;
+        }
+
+        .idade {
+            text-align: center;
+            background-color: lightyellow;
+            padding: 20px;
+            margin: 10px;
+            border-radius: 10px;
+            border: 2px solid orange;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js" crossorigin></script>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        // Componente que recebe props personalizadas e outras genéricas
+        const NomeCompleto = ({nome, sobrenome, ...props}) =>
+            <p className="cor1" {...props}>
+                {nome} {sobrenome}
+            </p>
+
+        const DataNascimento = ({dia, mes, ano, ...props}) =>
+            <p className="cor2" {...props}>
+                {dia}/{mes}/{ano}
+            </p>
+
+        const Idade = ({ano, ...props}) => {
+            const idade = 2025 - ano
+            return <div className="idade" {...props}>Idade ao final de 2025: {idade} anos</div>
+        }
+
+        // Container 
+        const container = <>
+            <NomeCompleto nome="Eduarda" sobrenome="Marve" id="nome1" title="Nome completo" />
+            <DataNascimento dia="20" mes="04" ano={2005} id="data1" title="Data de nascimento" />
+            <Idade ano={2005} id="idade1" title="Idade final de 2025" />
+        </>
+
+        const root = ReactDOM.createRoot(document.getElementById('root'))
+        root.render(container)
+    </script>
+</body>
+</html>
